@@ -1,38 +1,38 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import random
+from pages.MainPage import MainPage
+from pages.ProductCardPage import ProductCardPage
 
 
-def test_product_card_page_button_cart(driver, opencart_url, opencart_port):
-    driver.get(opencart_url + opencart_port + '/canon-eos-5d')
-    button_cart = WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, '#button-cart')))
-    assert button_cart.text == 'Add to Cart'
+def test_product_card_page_button_cart(driver, url, port):
+    MainPage(driver).open(url, port)
+    MainPage(driver).featured_product_click(random.randint(0, 3))
+    assert ProductCardPage(driver).get_button_cart_text() == 'Add to Cart'
 
 
-def test_product_card_page_thumbnails(driver, opencart_url, opencart_port):
-    driver.get(opencart_url + opencart_port + '/canon-eos-5d')
-    thumbnails_list = WebDriverWait(driver, 2).\
-        until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'ul[class="thumbnails"]>li>a>img')))
-    assert 'Canon EOS 5D' in [element.get_attribute('title') for element in thumbnails_list]
+def test_product_card_page_thumbnails(driver, url, port):
+    MainPage(driver).open(url, port)
+    MainPage(driver).featured_product_click(random.randint(0, 3))
+    featured_product_name = ProductCardPage(driver).get_product_name()
+    thumbnails_list = ProductCardPage(driver).get_thumbnails_list()
+    assert featured_product_name in [element.get_attribute('title') for element in thumbnails_list]
 
 
-def test_product_card_page_breadcrumb(driver, opencart_url, opencart_port):
-    driver.get(opencart_url + opencart_port + '/canon-eos-5d')
-    current_breadcrumb = WebDriverWait(driver, 2).\
-        until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'ul[class="breadcrumb"]>li>a')))[1]
-    assert 'Canon EOS 5D' in current_breadcrumb.text
+def test_product_card_page_breadcrumb(driver, url, port):
+    MainPage(driver).open(url, port)
+    MainPage(driver).featured_product_click(random.randint(0, 3))
+    featured_product_name = ProductCardPage(driver).get_product_name()
+    current_breadcrumb = ProductCardPage(driver).get_current_breadcrumb_text()
+    assert featured_product_name in current_breadcrumb
 
 
-def test_product_card_page_review_button(driver, opencart_url, opencart_port):
-    driver.get(opencart_url + opencart_port + '/canon-eos-5d')
-    WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'a[href="#tab-review"]'))).click()
-    review_button = WebDriverWait(driver, 2).\
-        until(EC.visibility_of_element_located((By.CSS_SELECTOR, '#button-review')))
-    assert 'Continue' in review_button.text
+def test_product_card_page_review_button(driver, url, port):
+    MainPage(driver).open(url, port)
+    MainPage(driver).featured_product_click(random.randint(0, 3))
+    ProductCardPage(driver).review_tab_click()
+    assert 'Continue' in ProductCardPage(driver).get_review_button_text()
 
 
-def test_product_card_page_description_tab(driver, opencart_url, opencart_port):
-    driver.get(opencart_url + opencart_port + '/canon-eos-5d')
-    description_tab = WebDriverWait(driver, 2).\
-        until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'a[href="#tab-description"]')))
-    assert 'Description' in description_tab.text
+def test_product_card_page_description_tab(driver, url, port):
+    MainPage(driver).open(url, port)
+    MainPage(driver).featured_product_click(random.randint(0, 3))
+    assert 'Description' in ProductCardPage(driver).get_description_tab_text()

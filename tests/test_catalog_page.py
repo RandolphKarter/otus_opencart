@@ -1,33 +1,35 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from pages.CatalogPage import CatalogPage
+from pages.MainPage import MainPage
+from pages.elements.MainMenu import MainMenu
 
 
-def test_catalog_page_product_compare_link(driver, opencart_url, opencart_port):
-    driver.get(opencart_url + opencart_port + '/smartphone')
-    product_compare_link = WebDriverWait(driver, 2).\
-        until(EC.visibility_of_element_located((By.CSS_SELECTOR, '#compare-total')))
-    assert 'Product Compare' in product_compare_link.text
+def test_catalog_page_product_compare_link(driver, url, port):
+    MainPage(driver).open(url, port)
+    MainMenu(driver).random_link_click()
+    assert 'Product Compare' in CatalogPage(driver).get_product_compare_link_text()
 
 
-def test_catalog_page_title(driver, opencart_url, opencart_port):
-    driver.get(opencart_url + opencart_port + '/smartphone')
-    page_title = WebDriverWait(driver, 2).\
-        until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div[id="content"]>h2')))
-    assert 'Phones & PDAs' in page_title.text
+def test_catalog_page_title(driver, url, port):
+    MainPage(driver).open(url, port)
+    random_link_text = MainMenu(driver).get_random_link_name()
+    MainMenu(driver).random_link_click()
+    page_title = CatalogPage(driver).get_page_title_text()
+    assert random_link_text in page_title
 
 
-def test_catalog_page_select_sort(driver, opencart_url, opencart_port):
-    driver.get(opencart_url + opencart_port + '/smartphone')
-    assert WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, '#input-sort')))
+def test_catalog_page_select_sort(driver, url, port):
+    MainPage(driver).open(url, port)
+    MainMenu(driver).random_link_click()
+    assert CatalogPage(driver).get_select_sort_input()
 
 
-def test_catalog_page_select_limit(driver, opencart_url, opencart_port):
-    driver.get(opencart_url + opencart_port + '/smartphone')
-    assert WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.CSS_SELECTOR, '#input-limit')))
+def test_catalog_page_select_limit(driver, url, port):
+    MainPage(driver).open(url, port)
+    MainMenu(driver).random_link_click()
+    assert CatalogPage(driver).get_select_limit_input()
 
 
-def test_catalog_page_product_card(driver, opencart_url, opencart_port):
-    driver.get(opencart_url + opencart_port + '/smartphone')
-    assert WebDriverWait(driver, 2).\
-        until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div[class="product-thumb"]')))
+def test_catalog_page_product_card(driver, url, port):
+    MainPage(driver).open(url, port)
+    MainMenu(driver).random_link_click()
+    assert CatalogPage(driver).get_product_cards()

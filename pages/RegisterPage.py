@@ -1,0 +1,44 @@
+from selenium.webdriver.common.by import By
+from data.generator.user_generator import generate_user
+from pages.BasePage import BasePage
+
+
+class RegisterPage(BasePage):
+    SUBMIT_BUTTON = (By.CSS_SELECTOR, 'input[type="submit"]')
+    AGREE_CHECKBOX = (By.CSS_SELECTOR, 'input[type="checkbox"]')
+    FIRSTNAME_INPUT = (By.CSS_SELECTOR, '#input-firstname')
+    LASTNAME_INPUT = (By.CSS_SELECTOR, '#input-lastname')
+    EMAIL_INPUT = (By.CSS_SELECTOR, '#input-email')
+    TELEPHONE_INPUT = (By.CSS_SELECTOR, '#input-telephone')
+    PASSWORD_INPUT = (By.CSS_SELECTOR, '#input-password')
+    PASSWORD_CONFIRM_INPUT = (By.CSS_SELECTOR, '#input-confirm')
+    SUCCESS_TEXT = (By.CSS_SELECTOR, 'div#content>h1')
+
+    def get_submit_button_attr_value(self):
+        return self.element_is_visible(self.SUBMIT_BUTTON).get_attribute('value')
+
+    def get_agree_checkbox_attr_name(self):
+        return self.element_is_visible(self.AGREE_CHECKBOX).get_attribute('name')
+
+    def get_firstname_input_placeholder(self):
+        return self.element_is_visible(self.FIRSTNAME_INPUT).get_attribute('placeholder')
+
+    def get_telephone_input_placeholder(self):
+        return self.element_is_visible(self.TELEPHONE_INPUT).get_attribute('placeholder')
+
+    def get_password_input_placeholder(self):
+        return self.element_is_visible(self.PASSWORD_INPUT).get_attribute('placeholder')
+
+    def fill_registration_form(self):
+        new_user = next(generate_user())
+        self.fill_input(self.FIRSTNAME_INPUT, new_user.first_name)
+        self.fill_input(self.LASTNAME_INPUT, new_user.last_name)
+        self.fill_input(self.EMAIL_INPUT, new_user.email)
+        self.fill_input(self.TELEPHONE_INPUT, new_user.phone)
+        self.fill_input(self.PASSWORD_INPUT, new_user.password)
+        self.fill_input(self.PASSWORD_CONFIRM_INPUT, new_user.password)
+        self.element_is_visible(self.AGREE_CHECKBOX).click()
+        self.element_is_visible(self.SUBMIT_BUTTON).click()
+
+    def get_success_text(self):
+        return self.element_is_visible(self.SUCCESS_TEXT).text
