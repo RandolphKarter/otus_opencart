@@ -54,7 +54,7 @@ def driver(request):
         case 'opera':
             options = ChromeOptions()
             if headless:
-                options.headless = True
+                options.add_argument('headless=new')
             options.add_experimental_option('w3c', True)
             service = Service(executable_path=os.path.expanduser('~/drivers/operadriver'))
             driver = webdriver.Chrome(options=options, service=service)
