@@ -3,6 +3,7 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver import ChromeOptions, FirefoxOptions
+from pages.LoginPage import LoginPage
 
 
 def pytest_addoption(parser):
@@ -48,7 +49,7 @@ def driver(request):
         case 'firefox':
             options = FirefoxOptions()
             if headless:
-                options.headless = True
+                options.add_argument('-headless')
             driver = webdriver.Firefox(options=options)
         case 'opera':
             options = ChromeOptions()
@@ -61,17 +62,25 @@ def driver(request):
             raise ValueError(f'Browser {browser_name} not support')
 
     if maximize:
-        driver.maximize_window()
+        driver.set_window_size(1920, 1080)
 
     yield driver
     driver.quit()
 
 
 @pytest.fixture
-def opencart_url(request):
+def url(request):
     return request.config.getoption('--url')
 
 
 @pytest.fixture
-def opencart_port(request):
+def port(request):
     return request.config.getoption('--port')
+
+
+@pytest.fixture
+def admin_auth(driver, url, port):
+    LoginPage(driver).open(url, port, LoginPage.PATH)
+    LoginPage(driver).fill_input(LoginPage.USERNAME_INPUT, 'user')
+    LoginPage(driver).fill_input(LoginPage.PASSWORD_INPUT, 'bitnami')
+    LoginPage(driver).element_is_visible(LoginPage.SUBMIT_BUTTON).click()
