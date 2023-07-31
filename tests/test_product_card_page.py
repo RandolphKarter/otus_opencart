@@ -1,15 +1,20 @@
 import random
+import allure
 from pages.MainPage import MainPage
 from pages.ProductCardPage import ProductCardPage
 
 
+@allure.title('Test visibility of cart button')
 def test_product_card_page_button_cart(driver, url, port):
+    """Test visibility of cart button"""
     MainPage(driver).open(url, port)
     MainPage(driver).featured_product_click(random.randint(0, 3))
     assert ProductCardPage(driver).get_button_cart_text() == 'Add to Cart'
 
 
+@allure.title('Test visibility of thumbnails')
 def test_product_card_page_thumbnails(driver, url, port):
+    """Test visibility of thumbnails"""
     MainPage(driver).open(url, port)
     MainPage(driver).featured_product_click(random.randint(0, 3))
     featured_product_name = ProductCardPage(driver).get_product_name()
@@ -17,7 +22,9 @@ def test_product_card_page_thumbnails(driver, url, port):
     assert featured_product_name in [element.get_attribute('title') for element in thumbnails_list]
 
 
+@allure.title('Test visibility of breadcrumb')
 def test_product_card_page_breadcrumb(driver, url, port):
+    """Test visibility of breadcrumb"""
     MainPage(driver).open(url, port)
     MainPage(driver).featured_product_click(random.randint(0, 3))
     featured_product_name = ProductCardPage(driver).get_product_name()
@@ -25,14 +32,18 @@ def test_product_card_page_breadcrumb(driver, url, port):
     assert featured_product_name in current_breadcrumb
 
 
+@allure.title('Test visibility of review button')
 def test_product_card_page_review_button(driver, url, port):
+    """Test visibility of review button"""
     MainPage(driver).open(url, port)
     MainPage(driver).featured_product_click(random.randint(0, 3))
     ProductCardPage(driver).review_tab_click()
     assert 'Continue' in ProductCardPage(driver).get_review_button_text()
 
 
+@allure.title('Test visibility of description tab')
 def test_product_card_page_description_tab(driver, url, port):
+    """Test visibility of description tab"""
     MainPage(driver).open(url, port)
     MainPage(driver).featured_product_click(random.randint(0, 3))
     assert 'Description' in ProductCardPage(driver).get_description_tab_text()
