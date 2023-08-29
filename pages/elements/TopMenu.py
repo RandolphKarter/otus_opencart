@@ -1,5 +1,6 @@
 import random
 
+import allure
 from selenium.webdriver.common.by import By
 from pages.BasePage import BasePage
 
@@ -18,19 +19,24 @@ class TopMenu(BasePage):
     ]
     random_currency = random.randint(0, len(CURRENCY_LIST) - 1)
 
+    @allure.step('Go to registration page')
     def go_to_registration_page(self):
         self.element_is_visible(self.DROPDOWN_MY_ACCOUNT).click()
         self.element_is_visible(self.REGISTER_LINK).click()
 
+    @allure.step('Open currency menu and click on random currency')
     def choice_currency(self):
         self.element_is_visible(self.FORM_CURRENCY).click()
+        self.logger.debug('%s: Random currency index is: %s' % (self.class_name, self.random_currency))
         self.find_element_in_element(
             self.FORM_CURRENCY,
             self.CURRENCY_LIST[self.random_currency]
         ).click()
 
+    @allure.step('Get currency name which clicked')
     def get_currency_name(self):
         self.element_is_visible(self.FORM_CURRENCY).click()
+        self.logger.debug('%s: Index for choice random currency is: %s' % (self.class_name, self.random_currency))
         return self.find_element_in_element(
             self.FORM_CURRENCY,
             self.CURRENCY_LIST[self.random_currency]
