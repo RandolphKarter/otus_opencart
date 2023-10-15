@@ -78,4 +78,7 @@ class BasePage:
 
     def scroll_and_move_to_element(self, element, x_coord, y_coord):
         self.driver.execute_script(f'window.scrollTo({x_coord}, {y_coord});')
-        ActionChains(self.driver).move_to_element(element).pause(1).perform()
+        ActionChains(self.driver).pause(1).move_to_element(self.element_is_visible(element)).pause(1).perform()
+
+    def move_to_element_and_click(self, element):
+        ActionChains(self.driver).move_to_element(self.element_is_visible(element)).click().pause(1).perform()

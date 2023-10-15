@@ -14,7 +14,7 @@ class CartPage(BasePage):
 
     @allure.step('Remove product from cart')
     def remove_product_from_cart(self):
-        self.element_is_visible(self.REMOVE_BUTTON).click()
+        self.move_to_element_and_click(self.REMOVE_BUTTON)
 
     @allure.step('Get empty cart text')
     def get_empty_cart_text(self):

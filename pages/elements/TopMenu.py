@@ -26,7 +26,7 @@ class TopMenu(BasePage):
 
     @allure.step('Go to cart page')
     def go_to_cart_page(self):
-        self.scroll_and_move_to_element(self.element_is_visible(self.CART_LINK), 0, 0)
+        self.scroll_and_move_to_element(self.CART_LINK, 0, 0)
         self.element_is_clickable(self.CART_LINK).click()
 
     @allure.step('User logout')

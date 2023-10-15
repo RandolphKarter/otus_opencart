@@ -9,7 +9,7 @@ from pages.CartPage import CartPage
 @allure.feature('Cart')
 @allure.story('Add product to cart')
 @allure.title('Test adding product to cart')
-@pytest.mark.parametrize('repeat', range(3))
+@pytest.mark.parametrize('repeat', range(50))
 def test_add_product_to_cart(driver, url, repeat):
     """Test add product to cart"""
     MainPage(driver).open(url)
@@ -23,7 +23,7 @@ def test_add_product_to_cart(driver, url, repeat):
 @allure.feature('Cart')
 @allure.story('Remove product from cart')
 @allure.title('Test removing product from cart')
-@pytest.mark.parametrize('repeat', range(3))
+@pytest.mark.parametrize('repeat', range(50))
 def test_remove_product_from_cart(driver, url, repeat):
     """Test remove product from cart"""
     MainPage(driver).open(url)
