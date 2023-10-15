@@ -1,6 +1,5 @@
 import allure
 from selenium.webdriver.common.by import By
-from data.generator.user_generator import generate_user
 from pages.BasePage import BasePage
 
 
@@ -36,8 +35,7 @@ class RegisterPage(BasePage):
         return self.element_is_visible(self.PASSWORD_INPUT).get_attribute('placeholder')
 
     @allure.step('Fill registration form')
-    def fill_registration_form(self):
-        new_user = next(generate_user())
+    def fill_registration_form(self, new_user):
         self.logger.debug('%s: User data: %s' % (self.class_name, new_user))
         self.fill_input(self.FIRSTNAME_INPUT, new_user.first_name)
         self.fill_input(self.LASTNAME_INPUT, new_user.last_name)

@@ -8,3 +8,7 @@ class User:
     email: str = None
     phone: str = None
     password: str = None
+    address: str = None
+    city: str = None
+    country_id: any = None
+    zone_id: any = None

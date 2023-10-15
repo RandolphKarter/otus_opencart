@@ -12,4 +12,3 @@ class AdminMenu(BasePage):
     def go_to_products_directory(self):
         self.find_element_in_element(self.MENU, self.MENU_CATALOG).click()
         self.element_is_clickable(self.MENU_PRODUCTS).click()
-
