@@ -1,4 +1,5 @@
 import allure
+from selenium.webdriver import ActionChains
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait as Wait
 from selenium.webdriver.support import expected_conditions as EC
@@ -10,16 +11,15 @@ class BasePage:
         self.logger = driver.logger
         self.class_name = type(self).__name__
 
-    @allure.step("Open url")
-    def open(self, url, port, path=''):
-        self.logger.info('[%s] Opening url: %s' % (self.class_name, url + port + path))
-        self.driver.get(url + port + path)
+    @allure.step('Open url {url} {path}')
+    def open(self, url, path=''):
+        self.logger.info('[%s] Opening url: %s' % (self.class_name, url + path))
+        self.driver.get(url + path)
 
-    @allure.step
     def element_is_visible(self, locator: tuple):
         try:
             self.logger.info('[%s] Find element %s' % (self.class_name, locator))
-            return Wait(self.driver, 2).until(EC.visibility_of_element_located(locator))
+            return Wait(self.driver, 3).until(EC.visibility_of_element_located(locator))
         except TimeoutException:
             self.logger.error('[%s] Not found element %s' % (self.class_name, locator))
             allure.attach(
@@ -29,7 +29,6 @@ class BasePage:
             )
             raise AssertionError(f'Element {locator} not found')
 
-    @allure.step
     def elements_are_visible(self, locator: tuple):
         try:
             self.logger.info('[%s] Find elements %s' % (self.class_name, locator))
@@ -43,7 +42,6 @@ class BasePage:
             )
             raise AssertionError(f'Elements {locator} not found')
 
-    @allure.step
     def element_is_clickable(self, locator: tuple):
         try:
             self.logger.info('[%s] Check element %s is clickable' % (self.class_name, locator))
@@ -65,7 +63,6 @@ class BasePage:
         field.clear()
         field.send_keys(value)
 
-    @allure.step
     def find_element_in_element(self, parent: tuple, child: tuple):
         try:
             self.logger.info('[%s] Find element %s in element %s' % (self.class_name, child, parent))
@@ -78,3 +75,7 @@ class BasePage:
                 attachment_type=allure.attachment_type.PNG
             )
             raise AssertionError(f'Not found element {child} in element {parent}')
+
+    def scroll_and_move_to_element(self, element, x_coord, y_coord):
+        self.driver.execute_script(f'window.scrollTo({x_coord}, {y_coord});')
+        ActionChains(self.driver).move_to_element(element).pause(1).perform()

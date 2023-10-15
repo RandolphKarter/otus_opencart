@@ -5,11 +5,10 @@ pipeline {
     CONTAINER = 'opancart_tests_container'
   }
   parameters {
-    string name: 'URL', defaultValue: 'http://192.168.0.14', description: 'Opencart url'
-    string name: 'PORT', defaultValue: ':8081', description: 'Opencart port'
+    string name: 'URL', defaultValue: 'http://192.168.0.14:8081', description: 'Opencart url'
     string name: 'EXECUTOR', defaultValue: '192.168.0.14', description: 'Selenoid IP'
     string name: 'THREADS', defaultValue: '1', description: 'Number of threads'
-    string name: 'BROWSER', defaultValue: 'chrome', description: 'Browser name'
+    choice choices: ['chrome', 'firefox', 'opera', 'edge'], name: 'BROWSER', description: 'Browser name'
     string name: 'BROWSER_VERSION', defaultValue: '114.0', description: 'Browser version'
     booleanParam name: 'MOBILE', defaultValue: false, description: 'Run tests in mobile browser version'
     choice choices: ['Pixel 5', 'iPhone XR'], name: 'MOBILE_DEVICE', description: 'Choice mobile device. Use only with mobile browser version'
@@ -30,9 +29,9 @@ pipeline {
       steps {
         script {
           if (params.MOBILE == true) {
-            sh 'docker run --name ${CONTAINER} -t ${IMAGE} -k ${TEST_NAME} --headless --url ${URL} --port ${PORT} --executor ${EXECUTOR} -n ${THREADS} --browser ${BROWSER} --browser_version ${BROWSER_VERSION} --mobile "${MOBILE_DEVICE}"'
+            sh 'docker run -e API_USER=${API_USER} -e API_KEY=${API_KEY} -e DB_USER=${DB_USER} -e DB_HOST=${DB_HOST} -e DB_NAME=${DB_NAME} -e OC_ADMIN_NAME=${OC_ADMIN_NAME} -e OC_ADMIN_PW=${OC_ADMIN_PW} --name ${CONTAINER} -t ${IMAGE} -k ${TEST_NAME} --headless --url ${URL} --executor ${EXECUTOR} -n ${THREADS} --browser ${BROWSER} --browser_version ${BROWSER_VERSION} --mobile "${MOBILE_DEVICE}"'
           } else {
-            sh 'docker run --name ${CONTAINER} -t ${IMAGE} -k ${TEST_NAME} --headless --url ${URL} --port ${PORT} --executor ${EXECUTOR} -n ${THREADS} --browser ${BROWSER} --browser_version ${BROWSER_VERSION}'
+            sh 'docker run -e API_USER=${API_USER} -e API_KEY=${API_KEY} -e DB_USER=${DB_USER} -e DB_HOST=${DB_HOST} -e DB_NAME=${DB_NAME} -e OC_ADMIN_NAME=${OC_ADMIN_NAME} -e OC_ADMIN_PW=${OC_ADMIN_PW} --name ${CONTAINER} -t ${IMAGE} -k ${TEST_NAME} --headless --url ${URL} --executor ${EXECUTOR} -n ${THREADS} --browser ${BROWSER} --browser_version ${BROWSER_VERSION}'
           }
         }
       }

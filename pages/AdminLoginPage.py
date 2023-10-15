@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from pages.BasePage import BasePage
 
 
-class LoginPage(BasePage):
+class AdminLoginPage(BasePage):
     PATH = '/admin'
     PAGE_TITLE = (By.CSS_SELECTOR, 'h1[class="panel-title"]')
     USERNAME_INPUT = (By.CSS_SELECTOR, '#input-username')
