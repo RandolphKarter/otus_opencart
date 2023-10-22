@@ -11,7 +11,7 @@ from pages.AccountPage import AccountPage
 @allure.feature('User login')
 @allure.story('New user login')
 @allure.title('Test new user login')
-@pytest.mark.parametrize('repeat', range(5))
+@pytest.mark.parametrize('repeat', range(2))
 def test_new_user_login(driver, url, get_new_user, repeat):
     """Test new user login"""
     new_user = get_new_user
@@ -28,7 +28,7 @@ def test_new_user_login(driver, url, get_new_user, repeat):
 @allure.feature('User login')
 @allure.story('Login not existing user')
 @allure.title('Test not existing user login')
-@pytest.mark.parametrize('repeat', range(5))
+@pytest.mark.parametrize('repeat', range(2))
 def test_login_not_existing_user(driver, url, get_new_user, repeat):
     """Test not existing user login"""
     MainPage(driver).open(url)

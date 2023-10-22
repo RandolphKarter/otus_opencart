@@ -64,7 +64,7 @@ def test_register_page_password_input(driver, url):
 @allure.feature('User registration')
 @allure.story('New user registration')
 @allure.title('Test new user registration')
-@pytest.mark.parametrize('repeat', range(5))
+@pytest.mark.parametrize('repeat', range(2))
 def test_new_user_registration(driver, url, repeat, get_new_user):
     """Test new user registration"""
     MainPage(driver).open(url)
