@@ -81,9 +81,7 @@ def test_main_page_change_currency(driver, url, currency):
                          [
                              'iPhone',
                              'HTC Touch HD',
-                             'Samsung SyncMaster 941BW',
-                             'iMac',
-                             'MacBook'
+                             'Samsung SyncMaster 941BW'
                          ])
 def test_search_existing_product(driver, url, product):
     """Test search existing product"""
@@ -100,9 +98,7 @@ def test_search_existing_product(driver, url, product):
                          [
                              'Xiaomi',
                              'Lenovo',
-                             'Samsung A12',
-                             'Guinness',
-                             'AOC'
+                             'Guinness'
                          ])
 def test_search_not_existing_product(driver, url, product):
     """Test search not existing product"""

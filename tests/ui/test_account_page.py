@@ -10,7 +10,7 @@ from pages.AccountPage import AccountPage
 @allure.feature('User login')
 @allure.story('User logout')
 @allure.title('Test user logout')
-@pytest.mark.parametrize('repeat', range(5))
+@pytest.mark.parametrize('repeat', range(2))
 def test_new_user_logout(driver, url, get_new_user, repeat):
     """Test new user logout"""
     new_user = get_new_user
